@@ -1,0 +1,4 @@
+E:\CLion\bin\cmake\win\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_DEPENDS_USE_COMPILER=FALSE -G "CodeBlocks - NMake Makefiles" E:\c++_code\Homework
+-- Configuring done
+-- Generating done
+-- Build files have been written to: E:/c++_code/Homework/cmake-build-debug
