@@ -11,13 +11,10 @@
 #define DOUBLECREAT_INQUIRE_H
 
 
-int Inquire();
+int InquireAll();
 
-int Inquire(int id);
+int Inquire(char id[], char name[], char grade[]);
 
-int Inquire(float grade);
-
-int Inquire(int id, char name[], float grade);
 
 
 #endif //DOUBLECREAT_INQUIRE_H

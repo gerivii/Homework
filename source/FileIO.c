@@ -10,10 +10,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "../head/FileIO.h"
-#include "../head/Struct.h"
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
+#include <stdlib.h>
 
 
 #define data "../data"
@@ -229,10 +229,129 @@ int FileReplace(int position, char str[], int flag) {
                 break;
             case 2:
                 position += 16;
+                break;
+            default:
+                return 0;
 
         }
         fseek(fp, position, SEEK_SET);
         fputs(str, fp);
+        fclose(fp);
+        return 1;
+    }
+}
+
+/**
+ * @brief 统计文件中有多少信息
+ * @return 数量
+ * @retval -1 统计失败
+ * @retval 其他数值 文件中数据的条数
+ */
+int FileCount() {
+    FILE *fp;
+    fp = fopen(data, "rb+");
+    if (fp == NULL) {
+        fprintf(stderr, "错误号：%d\n", errno);
+        perror("错误");
+        return -1;
+    } else {
+        int num = 0;
+        char temp[100];
+        while (fgets(temp, 100, fp) != NULL) {
+            num++;
+        }
+        fclose(fp);
+        return num;
+    }
+}
+
+/**
+ * @return 返回学生总分
+ * @retval -1 未能统计总分
+ */
+float FileTotal() {
+    FILE *fp;
+    fp = fopen(data, "rb+");
+    if (fp == NULL) {
+        fprintf(stderr, "错误号：%d\n", errno);
+        perror("错误");
+        return -1;
+    } else {
+        float sum = 0;
+        char id[100], name[100], grade[100];
+        while (fscanf(fp, "%s %s %s", id, name, grade) != EOF) {
+            sum += (float) atof(grade);
+        }
+        fclose(fp);
+        return sum;
+    }
+}
+
+/**
+ * @brief 返回信息中成绩最大的学生的id、姓名、成绩
+ * @param[out] id
+ * @param[out] name
+ * @param[out] grade
+ * @return 是否成功找到
+ * @retval 0 失败
+ * @retval 1 成功
+ */
+int FileMax(char id[], char name[], char grade[]) {
+    FILE *fp;
+    fp = fopen(data, "rb+");
+    if (fp == NULL) {
+        fprintf(stderr, "错误号：%d\n", errno);
+        perror("错误");
+        return 0;
+    } else {
+        strcpy(grade, "-1");
+        char id_max[100], name_max[100], grade_max[100];
+        while (fscanf(fp, "%s %s %s", id_max, name_max, grade_max) != EOF) {
+            if (atof(grade) < atof(grade_max)) {
+                strcpy(id, id_max);
+                strcpy(name, name_max);
+                for (int i = 0; i < strlen(name); i++) {
+                    if (name[i] == '*')
+                        name[i] = '\0';
+                }
+                strcpy(grade, grade_max);
+            }
+        }
+        fclose(fp);
+        return 1;
+    }
+}
+
+/**
+ * @brief 返回信息中成绩最小的学生的id、姓名、成绩
+ * @param[out] id
+ * @param[out] name
+ * @param[out] grade
+ * @return 是否成功找到
+ * @retval 0 失败
+ * @retval 1 成功
+ */
+int FileMin(char id[], char name[], char grade[]) {
+    FILE *fp;
+    fp = fopen(data, "rb+");
+    if (fp == NULL) {
+        fprintf(stderr, "错误号：%d\n", errno);
+        perror("错误");
+        return 0;
+    } else {
+        strcpy(grade, "1000");
+        char id_min[100], name_min[100], grade_min[100];
+        while (fscanf(fp, "%s %s %s", id_min, name_min, grade_min) != EOF) {
+            if (atof(grade) > atof(grade_min)) {
+                strcpy(id, id_min);
+                strcpy(name, name_min);
+                for (int i = 0; i < strlen(name); i++) {
+                    if (name[i] == '*')
+                        name[i] = '\0';
+                }
+                strcpy(grade, grade_min);
+            }
+        }
         fclose(fp);
         return 1;
     }

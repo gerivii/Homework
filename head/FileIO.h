@@ -22,5 +22,13 @@ int FileDel(char id[]);
 
 int FileReplace(int position, char str[], int flag);
 
+int FileCount();
+
+float FileTotal();
+
+int FileMax(char id[], char name[], char grade[]);
+
+int FileMin(char id[], char name[], char grade[]);
+
 
 #endif //DOUBLECREAT_FILEIO_H

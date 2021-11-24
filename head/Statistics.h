@@ -10,14 +10,13 @@
 #ifndef DOUBLECREAT_STATISTICS_H
 #define DOUBLECREAT_STATISTICS_H
 
-int total();
+float total();
 
-int ave();
+float ave();
 
-int max();
+int max(char id[], char name[], char grade[]);
 
-int min();
+int min(char id[], char name[], char grade[]);
 
-int sort();
 
 #endif //DOUBLECREAT_STATISTICS_H
